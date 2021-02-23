@@ -1,29 +1,16 @@
-from typing import List
 from fastapi import FastAPI
-from pydantic import BaseModel
+from .routers import rerank
 
 app = FastAPI()
 
 
-@app.get("/api")
-async def read_root():
-    return {"API": "API is up and urnning"}
+# API endpoints
+app.include_router(rerank.router, tags=["rerank"], prefix="/api")
 
+@app.get("/api/status", status_code=200)
+def status():
+    return
 
-class Doc(BaseModel):
-    doc_id: str
-    score: float
-
-class SearchQueryRequest(BaseModel):
-    query: str
-    docs: List[Doc]
-
-class SearchQueryResponse(BaseModel):
-    query: str
-    docs: List[Doc]
-
-
-@app.post('/api/rerank', response_model=SearchQueryResponse)
-async def rerank(request: SearchQueryResponse):
-    response = SearchQueryResponse(query=request.query, docs=request.docs)
-    return response
+@app.get("/api/.*", status_code=404, include_in_schema=False)
+def invalid_api():
+    return None
