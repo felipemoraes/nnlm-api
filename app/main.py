@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from .routers import rerank
+from pygaggle.rerank.transformer import MonoBERT
 
 app = FastAPI()
 
+
+app.state.reranker = MonoBERT()
 
 # API endpoints
 app.include_router(rerank.router, tags=["rerank"], prefix="/api")
