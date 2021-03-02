@@ -1,5 +1,5 @@
 fastapi[all]==0.52.0
-pygaggle==0.0.1
+pygaggle==0.0.2
 python-dotenv==0.12.0
 pytest==5.4.1
 torch==1.7.0

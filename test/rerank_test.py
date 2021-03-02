@@ -9,9 +9,9 @@ def test_rerank():
         "/api/rerank",
         headers={"X-Token": "coneofsilence"},
         json={"query": "foobar", 
-            "docs": [ {"doc_id": "Foo Bar", 
-            "score": 1.4}]},
+            "docs": [ {"docid": "Foo Bar",  "content" : "Foo Bar Foo Bar Foo Foo Bar"}]},
     )
-    assert response.status_code == 200
-    assert response.json() == {"query": "foobar", 
-            "docs": [ {"doc_id": "Foo Bar", "score" : 1.4} ]}
+    res = response.json()
+    assert res["query"] == "foobar"
+    assert res["docs"][0]["docid"] == "Foo Bar"
+    assert res["docs"][0]["score"] != 0.0
